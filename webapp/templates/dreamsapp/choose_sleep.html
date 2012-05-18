@@ -1,0 +1,39 @@
+{% extends "dreamsapp/base.html" %}
+
+{% load dreamutils %}
+
+{% block body %}
+
+<div class="container">
+  <div class="row">
+    <div class="span12">
+
+      <h2>Hello, {{ selected_user.first_name }}!</h2>
+      <p>Here's a list of your recent measured nights. Select one for which to make music!</p>
+      
+      <table class="table table-striped table-bordered">
+	<thead>
+	  <tr>
+	    <th>Date</th>
+	    <th>Amount of sleep</th>
+	    <th></th>
+	  </tr>
+	</thead>
+	<tbody>
+	  {% for night in timeline %}
+	  <tr>
+	    <td>{{ night.date|date }}</td>
+	    <td>{{ night.time_sleeping|hoursminutes|default:"(Not slept)" }}</td>
+	    <td><a class="btn" href="">Generate music</a></td>
+	  </tr>
+	  {% empty %}
+	  <tr><td span="3"><em>Hmm, you don't seem have any sleep info :/</em></td></tr>
+	  {% endfor %}
+	</tbody>
+      </table>
+      
+    </div>
+  </div>
+</div>
+
+{% endblock %}

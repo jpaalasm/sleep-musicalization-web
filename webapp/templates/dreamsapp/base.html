@@ -1,0 +1,62 @@
+<!doctype html>
+
+<html lang="en">
+
+  <head>
+
+    <link rel="stylesheet" href="{{ STATIC_URL }}bootstrap/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/dreams.css" type="text/css">
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script type="text/javascript" src="https://raw.github.com/rthprog/fixie/master/fixie_min.js"></script>
+
+    <script src="{{ STATIC_URL }}bootstrap/js/bootstrap.min.js"></script>  
+
+    {% block head %}
+    {% endblock %}
+
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+	<div class="container">
+	  <a class="brand" href="/">Dreams to music</a>
+	  
+	  <ul class="nav">
+	    <li><a href="#">How it works</a>
+	    <li><a href="#">Publications</a>
+	    <li><a href="#">Team</a>
+	    <li><a href="#">Comment</a>
+	    {% if request.session.beddit_user %}
+	    <li><a href="{% url webapp.views.night_index %}">{{ request.session.beddit_user.first_name }}'s sleep</a>
+   	    <li><a href="{% url sign_out %}"><i class="icon-signout"></i> Sign out</a>
+	    {% endif %}
+	  </ul>
+	</div>
+      </div>
+    </div>
+
+    {% if messages %}
+    <div class="container" style="margin-top: 40px;">
+      <div class="row">
+	<div class="span12">
+	  
+	  {% for message in messages %}
+	  <div class="alert">
+	    <button class="close" data-dismiss="alert">&times</button>
+	    {{ message }}
+	  </div>
+	  {% endfor %}
+
+	</div>
+      </div>
+    </div>
+    {% endif %}
+
+    {% block body %}
+    {% endblock %}
+  </body>
+
+</html>

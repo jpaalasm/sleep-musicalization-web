@@ -1,0 +1,109 @@
+{% extends "dreamsapp/base.html" %}
+
+
+{% block body %}
+
+<div class="container" style="margin-top:100px;">
+
+  <div class="row">
+    <div class="span12">
+
+      <p>
+      <div style="background-color: #def; height: 250px; padding: 20px;">
+	<h1>Dreams to Music</h1>
+
+	<h2><small>Sonification of data is cool stuff which gives you a new kind of look into your personal data.</small></h2>
+	
+	<p>
+	<p><a class="btn btn-primary btn-large"
+	      href="{{ authorize_url }}">
+	    <i class="icon-music icon-white"></i> Try it on your Beddit data!</a>
+
+	</div>
+
+    </div>
+  </div>
+
+  <div class="row">
+
+    <div class="span6">
+      <h2>What?</h2>
+
+      <p>A short explanation of what this is</p>
+
+      <h2>How?</h2>
+      
+      <p>Layman description of how it works</p>
+      
+      <h2>Why?</h2>
+
+      <p> :) </p>
+
+    </div>
+
+    <div class="span6">
+    
+      <h2>Listen latest samples</h2>
+  
+      <ul>
+	<li>Example night 1 <a class="btn"><i class="icon-headphones"></i> Listen</a><br>
+	  <small>Contributed by John</small>
+	<li>Another example night <a class="btn"><i class="icon-headphones"></i> Listen</a><br>
+	  <small>Contributed by Jessica</small>
+      </ul>
+
+      <p><a class="btn"><i class="icon-chevron-right"></i> View all (123)</a> </p>
+
+      <h3>Share</h3>
+      
+      <p>Like buttons (Also implement sharing of songs for Beddit users)
+
+    </div>
+
+  </div>
+
+  
+  <div class="row">
+    <div class="span12">
+      <h2>Publications</h2>
+      
+      <p>List of publications, conferences, etc.
+
+    </div>
+  </div>
+
+
+  <div class="row">
+    <div class="span12">
+      <h2>Team</h2>
+
+      <p>Credits here...
+
+	<h3>Media contact</h3>
+	Hannu?
+    </div>
+  </div>
+
+
+  <div class="row">
+    <div class="span12">
+      <h2>Funding</h2>
+
+      <p>Sponsoring credits
+    </div>
+  </div>
+
+
+  <div class="row">
+    <div class="span12">
+      <h2>Comment</h2>
+
+      <p>Disquss or similar comes to here...
+    </div>
+  </div>
+
+</div>
+
+
+{% endblock %}
+
