@@ -3,7 +3,7 @@ import json
 import logging
 import datetime
 
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse, HttpResponseForbidden
 from django.core.urlresolvers import reverse
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
@@ -11,6 +11,7 @@ from django.conf import settings
 from django.contrib import messages
 
 from models import Song
+from forms import SongInformationForm
 
 
 if settings.DEBUG:
@@ -87,7 +88,7 @@ def night_index(request):
 
             context["available_users"] = response_data
             context["selected_user"] = response_data[0]
-            request.session["beddit_user"] = context["selected_user"] 
+            request.session["beddit_user"] = context["selected_user"]
 
             username = context["selected_user"]["username"]
             end_date = datetime.date.today()
@@ -114,8 +115,11 @@ def night_index(request):
                               context_instance=RequestContext(request))
 
 
+def night(request, year, month, day):
+    pass
 
-def make_music(request):
+
+def make_song(request, year, month, day):
     pass
 
 
@@ -124,7 +128,7 @@ def song_index(request):
                }
     
     if request.session.has_key("beddit_user"):
-        context["my_songs"] = Song.objects.get_my_songs(request.session["beddit_username"]) 
+        context["my_songs"] = Song.objects.get_my_songs(request.session["beddit_user"]["username"]) 
     
     return render_to_response("dreamsapp/song.html", context,
                               context_instance=RequestContext(request))
@@ -137,8 +141,42 @@ def song(request, key=None):
                "latest_songs" : Song.objects.get_latest_public_songs()[:50],
                }
     
+    if request.session.has_key("beddit_user"):
+        context["my_songs"] = Song.objects.get_my_songs(request.session["beddit_user"]["username"]) 
+    
+        if request.session["beddit_user"]["username"] == song.beddit_username:
+            context["edit_link"] = reverse(song_edit, kwargs={"key" : song.key})
+    
     return render_to_response("dreamsapp/song.html", context,
                               context_instance=RequestContext(request))
+
+
+def song_edit(request, key=None):
+    song = get_object_or_404(Song, key=key)
+
+    if not (request.session.has_key("beddit_user") and
+            request.session["beddit_user"]["username"] == song.beddit_username):
+        messages.error(request, "You don't have permission to edit this songs information")
+        return HttpResponseRedirect(reverse("song", kwargs={"key" : song.key}))
+    
+    if request.method == "POST":
+        form = SongInformationForm(request.POST, instance=song)
+        if form.is_valid():
+            form.save()
+            messages.info(request, "Song information saved")
+            return HttpResponseRedirect(reverse("song", kwargs={"key" : song.key}))
+        else:
+            messages.error(request, "Please check errors in your input")
+    else:
+        form = SongInformationForm(instance=song)
+        
+    context = {"song" : song,
+               "form" : form,
+               }
+
+    return render_to_response("dreamsapp/song_edit.html", context,
+                              context_instance=RequestContext(request))
+    
 
 def song_mp3(request, key=None):
     song = get_object_or_404(Song, key=key)

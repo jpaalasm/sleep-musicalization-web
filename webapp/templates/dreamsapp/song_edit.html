@@ -27,17 +27,14 @@
 
 <div class="container" style="margin-top:100px;">
   <div class="row">
-    <div class="span6">
+    <div class="span6 offset3">
 
-	{% if song %}
-
-      <h1>
-      	{{ song.title }}
-  		{% if edit_link %}
-  		<small><a href="{{ edit_link }}"><i class="icon-pencil"></i> Edit</a></small>
-  		{% endif %}
-      </h1>
-
+	<div class="well">
+	
+		<h1>Here's your song</h1>
+	
+		<p>Now you can listen to it, and then optionally add a title and publish it!
+	
 		<!-- jquery player -->
 		  <div id="jquery_jplayer_1" class="jp-jplayer"></div>
 		  <div id="jp_container_1" class="jp-audio">
@@ -79,38 +76,16 @@
 		      </div>
 		    </div>
 		  </div>
-		  
-		 {{ song.description|linebreaks }}
-	  
-	  	<h3>Share this song</h3>
 
-		<p>Copy-paste the following link to email, discussion, etc:
-		<p><input value="http://sleeptomusic.com{% url song song.key %}" class="span6">      
-      
-      
-      {% else %}
-      
-      	<p>Choose a song from the list --></p>
-      
-      {% endif %}
-      
+		<form action="" method="POST">
+			{{ form.as_p }}
+			{% csrf_token %} 
+			<p><button type="submit" class="btn btn-primary"><i class="icon-ok icon-white"></i> Save</button>
+		</form>
+		
+      </div>
     </div>
     
-    <div class="span6">
-    	{% if my_songs %}
-	    	<h2>My songs</h2>
-	    	
-	    	{% with song_list=my_songs %}
-	    		{% include "dreamsapp/song_list_snippet.html" %}
-	    	{% endwith %}
-	    {% endif %}
-    
-    	<h2>Latest songs</h2>
-    	
-    	{% with song_list=latest_songs %}
-    		{% include "dreamsapp/song_list_snippet.html" %}
-    	{% endwith %}
-    </div>
   </div>
 </div>
 
