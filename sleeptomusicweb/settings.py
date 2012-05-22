@@ -51,7 +51,7 @@ USE_TZ = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
-MEDIA_ROOT = ''
+MEDIA_ROOT = '/tmp/sleeptomusic_media'
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
@@ -197,3 +197,12 @@ SECRET_KEY = config_parser.get("django", "secret_key")
 BEDDIT_CLIENT_ID = config_parser.get("sleeptomusic", "beddit_client_id")
 BEDDIT_CLIENT_SECRET = config_parser.get("sleeptomusic", "beddit_client_secret")
 BEDDIT_REDIRECT_URL = config_parser.get("sleeptomusic", "beddit_redirect_url")
+
+# Amazon S3 is used for storing the song files
+#DEFAULT_FILE_STORAGE = 'libs.storages.S3Storage.S3Storage'
+
+#AWS_ACCESS_KEY_ID = config_parser.get("aws", "aws_access_key_id")
+#AWS_SECRET_ACCESS_KEY = config_parser.get("aws", "aws_secret_access_key")
+#AWS_STORAGE_BUCKET_NAME = config_parser.get("aws", "aws_storage_bucket_name")
+
+SLEEP_TO_MUSIC_BIN = "/home/mikko/DreamsToMusic/dreamstomusic.py"
