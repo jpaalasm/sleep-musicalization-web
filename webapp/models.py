@@ -31,7 +31,8 @@ class SongManager(models.Manager):
         
         song = self.create(user_nickname=username,
                            beddit_username=username,
-                           key=key)
+                           key=key,
+                           title=username + " " + date.strftime("%x"))
         
         with open(output_file_name) as outfile:
             song.song_file.save(key + ".mp3", File(outfile))
@@ -51,20 +52,25 @@ class SongManager(models.Manager):
 
 
 class Song(models.Model):
+    
     key = models.CharField(max_length=20, db_index=True)
 
+    # Automatically generated metadata, user may not change
     generated = models.DateTimeField(auto_now_add=True)
     beddit_username = models.CharField(max_length=40)
-    
-    user_nickname = models.CharField(max_length=40)
-    public = models.BooleanField(default=False)
     times_listened = models.IntegerField(default=0)
     length_seconds = models.IntegerField(default=0)
+    
+    # User editable fields
+    user_nickname = models.CharField(max_length=40)
+    public = models.BooleanField(default=False, help_text="Share the song everyone? If unchecked, you still get a private link for sharing with friends.")
+    title = models.CharField(max_length=100)
+    description = models.TextField(blank=True)
     
     song_file = models.FileField(upload_to="songs")
 
     objects = SongManager()
     
     def __unicode__(self):
-        return self.user_nickname
+        return self.title
     
