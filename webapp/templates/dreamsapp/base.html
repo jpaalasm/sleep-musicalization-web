@@ -3,14 +3,20 @@
 <html lang="en">
 
   <head>
+  
+  	<title>Sleep to music</title>
 
     <link rel="stylesheet" href="{{ STATIC_URL }}bootstrap/css/bootstrap.min.css" type="text/css">
     <link rel="stylesheet" href="{{ STATIC_URL }}css/dreams.css" type="text/css">
+	
+	<link rel="stylesheet" href="{{ STATIC_URL }}blue.monday/jplayer.blue.monday.css" type="text/css">
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
     <script type="text/javascript" src="https://raw.github.com/rthprog/fixie/master/fixie_min.js"></script>
 
     <script src="{{ STATIC_URL }}bootstrap/js/bootstrap.min.js"></script>  
+
+    <script src="{{ STATIC_URL }}js/jQuery.jPlayer.2.1.0/jquery.jplayer.min.js"></script>  
 
     {% block head %}
     {% endblock %}
@@ -22,16 +28,17 @@
     <div class="navbar navbar-fixed-top">
       <div class="navbar-inner">
 	<div class="container">
-	  <a class="brand" href="/">Dreams to music</a>
+	  <a class="brand" href="/">Sleep to music</a>
 	  
 	  <ul class="nav">
-	    <li><a href="#">How it works</a>
-	    <li><a href="#">Publications</a>
-	    <li><a href="#">Team</a>
-	    <li><a href="#">Comment</a>
+	    <li><a href="{% url home %}#how_it_works">How it works</a>
+	    <li><a href="{% url home %}#publications">Publications</a>
+	    <li><a href="{% url song_index %}">Songs</a>
+	    <li><a href="{% url home %}#team">Team</a>
+	    <li><a href="{% url home %}#comment">Comment</a>
 	    {% if request.session.beddit_user %}
-	    <li><a href="{% url webapp.views.night_index %}">{{ request.session.beddit_user.first_name }}'s sleep</a>
-   	    <li><a href="{% url sign_out %}"><i class="icon-signout"></i> Sign out</a>
+		    <li><a href="{% url night_index %}">{{ request.session.beddit_user.first_name }}'s sleep</a>
+	   	    <li><a href="{% url sign_out %}"><i class="icon-signout"></i> Sign out</a>
 	    {% endif %}
 	  </ul>
 	</div>

@@ -3,14 +3,15 @@ import json
 import logging
 import datetime
 
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from django.conf import settings
 from django.contrib import messages
 
-import models
+from models import Song
+
 
 if settings.DEBUG:
     logger = logging.getLogger("development")
@@ -23,8 +24,11 @@ def home(request):
         "authorize_url" : ("https://api.beddit.com/api/oauth/authorize?" +
                            "client_id=" + settings.BEDDIT_CLIENT_ID + "&" +
                            "redirect_uri=" + settings.BEDDIT_REDIRECT_URL + "&" +
-                           "response_type=code")
-        }
+                           "response_type=code"),
+        "latest_songs" : Song.objects.get_latest_public_songs()[:10],
+        "total_songs" : Song.objects.get_number_of_public_songs(),
+    }
+
     return render_to_response("dreamsapp/home.html", context, context_instance=RequestContext(request))
 
 
@@ -114,6 +118,32 @@ def night_index(request):
 def make_music(request):
     pass
 
+
+def song_index(request):
+    context = {"latest_songs" : Song.objects.get_latest_public_songs()[:10],
+               }
+    
+    if request.session.has_key("beddit_user"):
+        context["my_songs"] = Song.objects.get_my_songs(request.session["beddit_username"]) 
+    
+    return render_to_response("dreamsapp/song.html", context,
+                              context_instance=RequestContext(request))
+    
+    
+def song(request, key=None):
+    song = get_object_or_404(Song, key=key)
+    
+    context = {"song" : song,
+               "latest_songs" : Song.objects.get_latest_public_songs()[:50],
+               }
+    
+    return render_to_response("dreamsapp/song.html", context,
+                              context_instance=RequestContext(request))
+
+def song_mp3(request, key=None):
+    song = get_object_or_404(Song, key=key)
+    return HttpResponse(song.song_file.read(), mimetype="audio/mpeg")
+    
 
 def sign_out(request):
     request.session.flush()
