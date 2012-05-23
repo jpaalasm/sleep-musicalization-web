@@ -132,6 +132,9 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 
+    'djcelery',
+    'djkombu',
+
     'webapp',
 )
 
@@ -205,4 +208,17 @@ BEDDIT_REDIRECT_URL = config_parser.get("sleeptomusic", "beddit_redirect_url")
 #AWS_SECRET_ACCESS_KEY = config_parser.get("aws", "aws_secret_access_key")
 #AWS_STORAGE_BUCKET_NAME = config_parser.get("aws", "aws_storage_bucket_name")
 
-SLEEP_TO_MUSIC_BIN = "/home/mikko/DreamsToMusic/dreamstomusic.py"
+# Used for running the actual music composition
+SLEEP_TO_MUSIC_PYTHON_INTERPRETER = "/home/mikko/.virtualenvs/dreamstomusic/bin/python"
+SLEEP_TO_MUSIC_SCRIPT = "/home/mikko/DreamsToMusic/dreamstomusic.py"
+
+import djcelery
+djcelery.setup_loader()
+
+BROKER_BACKEND = "djkombu.transport.DatabaseTransport"
+#celery
+BROKER_HOST = "localhost"
+BROKER_PORT = 5672
+BROKER_USER = "guest"
+BROKER_PASSWORD = "guest"
+BROKER_VHOST = "/"

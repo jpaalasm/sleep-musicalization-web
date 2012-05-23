@@ -11,7 +11,8 @@ from django.conf import settings
 from django.contrib import messages
 
 from models import Song
-from forms import SongInformationForm
+from forms import SongInformationForm, CreateSongForm
+from tasks import GenerateSongTask
 
 
 if settings.DEBUG:
@@ -119,8 +120,30 @@ def night(request, year, month, day):
     pass
 
 
-def make_song(request, year, month, day):
-    pass
+def song_create(request):
+    """Creates new Song and adds a task for generating it
+    """
+    access_token = request.session.get("beddit_access_token", None)
+    
+    if access_token is None:
+        messages.error(request, "Authorization required")
+        return HttpResponseRedirect(reverse(home))
+    
+    if request.method == "POST":
+        form = CreateSongForm(request.POST)
+        if form.is_valid():
+            song = Song.objects.make_song(request.session["beddit_user"]["username"],
+                                          form.cleaned_data["date"])
+    
+            GenerateSongTask.delay(song.id, form.cleaned_data["date"], access_token)
+    
+            return HttpResponseRedirect(reverse(song_wait_finished, kwargs={"key" : song.key}))
+        else:
+            messages.error(request, "No valid date specified")
+            return HttpResponseRedirect(reverse(night_index))
+    else:
+        messages.error(request, "Post request required")
+        return HttpResponseRedirect(reverse(night_index))
 
 
 def song_index(request):
@@ -132,6 +155,22 @@ def song_index(request):
     
     return render_to_response("dreamsapp/song.html", context,
                               context_instance=RequestContext(request))
+    
+
+def song_wait_finished(request, key=None):
+    song = get_object_or_404(Song, key=key)
+    
+    if song.state == "finished":
+        return HttpResponseRedirect(reverse("song", kwargs={"key" : song.key}))
+    elif song.state == "error":
+        messages.error(request, "An error occurred while generating your song, sorry!")
+        return HttpResponseRedirect(reverse("night_index"))
+    else:
+        context = {"song" : song,
+                   }
+        
+        return render_to_response("dreamsapp/song_wait_finished.html", context,
+                                  context_instance=RequestContext(request))
     
     
 def song(request, key=None):

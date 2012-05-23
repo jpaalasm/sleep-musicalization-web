@@ -8,55 +8,42 @@ from django.conf import settings
 
 
 class SongManager(models.Manager):
-    def make_song(self, username, date, access_token):
+    def make_song(self, username, date):
         """Creates a new song by fetching users data from Beddit and
         storing it to mp3 file.
         """
-        output_file_name = tempfile.mktemp(suffix=".mp3")
-        command_template = "/home/mikko/DreamsToMusic/dreamstomusic %s %s %s %s"
-        command = command_template % (username,
-                                      date.strftime("%Y-%m-%d"),
-                                      access_token,
-                                      output_file_name)
-#        command = "source /home/mikko/.bash_profile && workon dreamstomusic && %s --username %s --date %s --token %s %s" % (settings.SLEEP_TO_MUSIC_BIN,
-#                                                                username,
-#                                                                date.strftime("%Y-%m-%d"),
-#                                                                access_token,
-#                                                                output_file_name)
-        ret = os.system(command)
-        
-        print "RETURN CODE",ret
-        
         key = unicode(''.join([random.choice("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789") for i in range(12)]))
         
         song = self.create(user_nickname=username,
                            beddit_username=username,
                            key=key,
                            title=username + " " + date.strftime("%x"))
-        
-        with open(output_file_name) as outfile:
-            song.song_file.save(key + ".mp3", File(outfile))
-            
-        song.save()
-        
         return song
     
     def get_latest_public_songs(self):
-        return self.filter(public=True).order_by("-generated")
+        return self.filter(public=True, state="finished").order_by("-created")
     
     def get_number_of_public_songs(self):
-        return self.filter(public=True).count()
+        return self.filter(public=True, state="finished").count()
     
     def get_my_songs(self, beddit_username):
-        pass
-
+        return self.filter(public=True, state="finished", beddit_username=beddit_username)
+    
 
 class Song(models.Model):
     
+    STATE_CHOICES = (("new",        "Waiting for processing"),
+                     ("processing", "Processing"),
+                     ("finished",   "Finished"),
+                     ("error",      "Error"),   
+                     )
+    
     key = models.CharField(max_length=20, db_index=True)
 
+    state = models.CharField(max_length=20, choices=STATE_CHOICES, default="new")
+
     # Automatically generated metadata, user may not change
-    generated = models.DateTimeField(auto_now_add=True)
+    created = models.DateTimeField(auto_now_add=True)
     beddit_username = models.CharField(max_length=40)
     times_listened = models.IntegerField(default=0)
     length_seconds = models.IntegerField(default=0)
@@ -67,9 +54,13 @@ class Song(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField(blank=True)
     
-    song_file = models.FileField(upload_to="songs")
+    song_file = models.FileField(upload_to="songs", blank=True)
 
     objects = SongManager()
+    
+    def set_state(self, new_state):
+        self.state = new_state
+        self.save()
     
     def __unicode__(self):
         return self.title

@@ -9,3 +9,7 @@ class SongInformationForm(forms.ModelForm):
         model = Song
         fields = ("user_nickname", "public", "title", "description")
         
+        
+class CreateSongForm(forms.Form):
+    date = forms.DateField()
+    
