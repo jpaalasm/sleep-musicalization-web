@@ -36,11 +36,13 @@
 	    <li><a href="{% url song_index %}">Songs</a>
 	    <li><a href="{% url home %}#team">Team</a>
 	    <li><a href="{% url home %}#comment">Comment</a>
+	  </ul>
 	    {% if request.session.beddit_user %}
+	    <ul class="nav pull-right">
 		    <li><a href="{% url night_index %}">{{ request.session.beddit_user.first_name }}'s sleep</a>
 	   	    <li><a href="{% url sign_out %}"><i class="icon-signout"></i> Sign out</a>
+		  </ul>
 	    {% endif %}
-	  </ul>
 	</div>
       </div>
     </div>
