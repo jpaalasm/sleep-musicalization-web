@@ -9,7 +9,7 @@ urlpatterns = patterns('webapp',
 
     url(r'^nights$', 'views.night_index', name='night_index'),
 
-    url(r'^song?$', 'views.song_index', name='song_index'),
+    url(r'^song$', 'views.song_index', name='song_index'),
     url(r'^create_song$', 'views.song_create', name='song_create'),
     url(r'^song/(?P<key>[\w\d]+)$', 'views.song', name='song'),
     url(r'^song/(?P<key>[\w\d]+).mp3$', 'views.song_mp3', name='song_mp3'),
