@@ -5,16 +5,13 @@
 	<div class="row">
 		<div class="span12">
 
-			<p>
-			<div style="background-color: #def; height: 250px; padding: 20px;">
+			<div class="hero-unit">
 				<h1>Sleep musicalization</h1>
 
-				<h2>
-					<small>Sonification of data is cool stuff which gives you a
-						new kind of look into your personal data.</small>
-				</h2>
+				<p>Sonification of data is cool stuff which gives you a
+						new kind of look into your personal data.
+				</p>
 
-				<p>
 				<p>
 					<a class="btn btn-primary btn-large" href="{{ authorize_url }}">
 						<i class="icon-music icon-white"></i> Try it on your Beddit data!
@@ -26,8 +23,8 @@
 
 	<div class="row">
 
-		<div class="span6">
-			<h2>Introduction</h2>
+		<div class="span7">
+			<h1>Introduction</h1>
 
 			<p>Data musicalization is a new way to aid analysis and understanding of sleep
 			measurement data.</p>
@@ -44,19 +41,19 @@
 
 		</div>
 
-		<div class="span6">
+		<div class="span5">
 
-			<h2>Listen latest samples</h2>
-
-			{% with song_list=latest_songs %}
-				{% include "dreamsapp/song_list_snippet.html" %}
-			{% endwith %}
-
-			<p>
-				<a class="btn" href="{% url song_index %}"><i
-					class="icon-chevron-right"></i> View all ({{ total_songs }})</a>
-			</p>
-
+				<h2>Listen to latest samples</h2>
+	
+				{% with song_list=latest_songs %}
+					{% include "dreamsapp/song_list_snippet.html" %}
+				{% endwith %}
+	
+				<p>
+					<a class="btn" href="{% url song_index %}"><i
+						class="icon-chevron-right"></i> View all ({{ total_songs }})</a>
+				</p>
+				
 			<h3>Tell your friends</h3>
 
 			<p>Like buttons (Also implement sharing of songs for Beddit
