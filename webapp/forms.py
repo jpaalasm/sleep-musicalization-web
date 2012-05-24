@@ -7,7 +7,7 @@ class SongInformationForm(forms.ModelForm):
 
     class Meta:
         model = Song
-        fields = ("user_nickname", "public", "title", "description")
+        fields = ("public", "title", "description")
         
         
 class CreateSongForm(forms.Form):

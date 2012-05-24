@@ -50,9 +50,9 @@ class Song(models.Model):
     
     # User editable fields
     user_nickname = models.CharField(max_length=40)
-    public = models.BooleanField(default=False, help_text="Share the song everyone? If unchecked, you still get a private link for sharing with friends.")
-    title = models.CharField(max_length=100)
-    description = models.TextField(blank=True)
+    public = models.BooleanField(default=False, help_text="Include this song in public list of songs?")
+    title = models.CharField(max_length=100, help_text="You can make up a nice title for your song")
+    description = models.TextField(blank=True, help_text="If you like, you can write something about this night and song")
     
     song_file = models.FileField(upload_to="songs", blank=True)
 
