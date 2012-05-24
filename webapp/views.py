@@ -27,7 +27,7 @@ def home(request):
                            "client_id=" + settings.BEDDIT_CLIENT_ID + "&" +
                            "redirect_uri=" + settings.BEDDIT_REDIRECT_URL + "&" +
                            "response_type=code"),
-        "latest_songs" : Song.objects.get_latest_public_songs()[:10],
+        "latest_songs" : Song.objects.get_latest_public_songs()[:5],
         "total_songs" : Song.objects.get_number_of_public_songs(),
     }
 
@@ -116,10 +116,6 @@ def night_index(request):
                               context_instance=RequestContext(request))
 
 
-def night(request, year, month, day):
-    pass
-
-
 def song_create(request):
     """Creates new Song and adds a task for generating it
     """
@@ -161,7 +157,7 @@ def song_wait_finished(request, key=None):
     song = get_object_or_404(Song, key=key)
     
     if song.state == "finished":
-        return HttpResponseRedirect(reverse("song", kwargs={"key" : song.key}))
+        return HttpResponseRedirect(reverse("song_edit", kwargs={"key" : song.key}))
     elif song.state == "error":
         messages.error(request, "An error occurred while generating your song, sorry!")
         return HttpResponseRedirect(reverse("night_index"))
