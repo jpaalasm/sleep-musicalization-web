@@ -8,9 +8,7 @@
 			<div class="hero-unit">
 				<h1>Sleep musicalization</h1>
 
-				<p>Sonification of data is cool stuff which gives you a
-						new kind of look into your personal data.
-				</p>
+				<p>Musicalization of data is a novel approach to turn your data into personally composed music.</p>
 
 				<p>
 					<a class="btn btn-primary btn-large" href="{{ authorize_url }}">
@@ -39,40 +37,45 @@
 			<p>Sleep musicalization produces music that reflects the user's and complements
 			visualizations of sleep measurements.</p>
 
-		</div>
 
-		<div class="span5">
-
-				<h2>Listen to latest samples</h2>
-	
-				{% with song_list=latest_songs %}
-					{% include "dreamsapp/song_list_snippet.html" %}
-				{% endwith %}
-	
-				<p>
-					<a class="btn" href="{% url song_index %}"><i
-						class="icon-chevron-right"></i> View all ({{ total_songs }})</a>
-				</p>
-				
-			<h3>Tell your friends</h3>
-
-			<p>Like buttons (Also implement sharing of songs for Beddit
-				users)
-		</div>
-
-	</div>
-
-
-	<div class="row">
-		<div class="span12">
 			<h2>
 				<a name="publications"></a>Publications
 			</h2>
 
 			<p>List of publications, conferences, etc.
-		</div>
-	</div>
 
+
+		</div>
+
+		<div class="span5">
+
+			<h2>Listen to latest samples</h2>
+
+			{% with song_list=latest_songs %}
+				{% include "dreamsapp/song_list_snippet.html" %}
+			{% endwith %}
+
+			<p>
+				<a class="btn" href="{% url song_index %}"><i
+					class="icon-chevron-right"></i> View all ({{ total_songs }})</a>
+			</p>
+			
+			
+			<div class="well">
+				<h3>Tell your friends</h3>
+	
+				<div class="fb-like" data-href="http://sleepmusicalization.net" data-send="false" data-layout="button_count" data-width="60" data-show-faces="true"></div>
+				
+				<a href="https://twitter.com/share" class="twitter-share-button" data-size="large">Tweet</a>
+				
+				<!-- Place this tag where you want the +1 button to render -->
+				<g:plusone></g:plusone>
+				
+			</div>
+			
+		</div>
+
+	</div>
 
 	<div class="row">
 		<div class="span12">
@@ -88,7 +91,7 @@
 				Aurora Tulilaulu<br>
 				<small>Music composition</small>
 			</h3>
-			<p>Short intro here
+		
 		</div>
 		
 		<div class="span3">
@@ -96,7 +99,7 @@
 				Joonas Paalasmaa<br>
 				<small>Sleep data analysis</small>
 			</h3>
-			<p>Short intro here
+		
 		</div>
 		
 		<div class="span3">
@@ -104,7 +107,7 @@
 				Mikko Waris<br>
 				<small>This website</small>
 			</h3>
-			<p>Short intro here
+		
 		</div>
 		
 		<div class="span3">
@@ -112,7 +115,7 @@
 				Hannu Toivonen<br>
 				<small>Professor</small>
 			</h3>
-			<p>Short intro here
+			
 		</div>
 	</div>
 
@@ -121,7 +124,7 @@
 		<div class="span12">
 			<h2>Funding</h2>
 
-			<p>Sponsoring credits
+			<p>This work has been supported by the Algorithmic Data Analysis (Algodan) Centre of Excellence of the Academy of Finland and by the University of Helsinki.
 		</div>
 	</div>
 
@@ -132,7 +135,21 @@
 				<a name="comment"></a>Comment
 			</h2>
 
-			<p>Disquss or similar comes to here...
+	        <div id="disqus_thread"></div>
+	        <script type="text/javascript">
+	            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+	            var disqus_shortname = 'Sleep Musicalization'; // required: replace example with your forum shortname
+	
+	            /* * * DON'T EDIT BELOW THIS LINE * * */
+	            (function() {
+	                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	                dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+	                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	            })();
+	        </script>
+	        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+	        <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+	        
 		</div>
 	</div>
 
