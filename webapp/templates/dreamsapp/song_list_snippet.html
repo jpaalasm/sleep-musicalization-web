@@ -1,8 +1,9 @@
 {% for song in song_list %}
-	{% if forloop.first %}<ul>{% endif %}
-	<li>
-		{{ song }} <a class="btn" href="{% url song song.key %}"><i class="icon-headphones"></i> Listen</a><br>
-		<small>Contributed by {{ song.user_nickname }}</small>
+	{% if forloop.first %}<ul class="unstyled">{% endif %}
+	<li style="display: block;">
+		<a class="btn btn-small" href="{% url song song.key %}" style="float: right;"><i class="icon-headphones"></i> Listen</a>
+		<h4>{{ song }}</h4>
+		<p>Contributed by {{ song.user_nickname }}</p>
 	</li>
 	{% if forloop.last %}</ul>{% endif %}
 {% empty %}
