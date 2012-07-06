@@ -26,8 +26,31 @@
 {% block body %}
 
 <div class="container" style="margin-top:100px;">
+
+  {% if not edit_link %}
+  <div class="row" style="margin-bottom:40px;">
+    <div class="span6">
+    
+	    <p>Data musicalization is a new way to aid analysis and understanding of sleep measurement data.
+	
+		<p>The project is done at Computer science department of University of Helsinki.
+		
+	
+	</div>
+    <div class="span6">
+    
+		
+		<p>The sleep measurement is based on Beddit sensor. Data measured with Beddit is accessed via their public API, and automatic music composition algorithm is used to generate a song from the sleep data.
+		
+		<p>Sleep musicalization produces music that reflects the user's and complements visualizations of sleep measurements.
+
+	</div>
+  </div>
+  {% endif %}
+
   <div class="row">
     <div class="span6">
+
 
 	{% if song %}
 
