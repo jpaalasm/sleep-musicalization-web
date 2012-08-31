@@ -9,7 +9,7 @@
     <div class="span12">
 
       <h2>Hello, {{ selected_user.first_name }}!</h2>
-      <p>Here's a list of your recent measured nights. Select one for which to make music!</p>
+      <p>Here's a list of your recent measured nights. Select one for which to compose music!</p>
       
       <table class="table table-striped table-bordered">
 	<thead>
@@ -28,7 +28,7 @@
 	    	<form action="{% url song_create %}" method="POST" style="margin-bottom: 0;">
 	    		<input type="hidden" name="date" value="{{ night.date|date:'Y-m-d' }}">
 	    		{% csrf_token %}
-	    		<button type="submit" class="btn"><i class="icon-circle-arrow-right"></i> Generate music</button>
+	    		<button type="submit" class="btn"><i class="icon-circle-arrow-right"></i> Compose music</button>
 	    	</form>
     	</td>
 	  </tr>
