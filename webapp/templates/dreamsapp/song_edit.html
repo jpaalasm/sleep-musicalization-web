@@ -33,9 +33,7 @@
 	
 		<h1>Here's your song</h1>
 	
-		<p>Copy-paste the following link to share this to your friends:<br>
-		<input value="http://sleepmusicalization.net{% url song song.key %}" class="span5">  
-	
+		<p>	
 		<!-- jquery player -->
 		  <div id="jquery_jplayer_1" class="jp-jplayer"></div>
 		  <div id="jp_container_1" class="jp-audio">
@@ -73,12 +71,17 @@
 		      </div>
 		      <div class="jp-no-solution">
 		        <span>Update Required</span>
-		        To play the media you will need to either update your browser to a recent version or update your <a href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>.
+		        To play the media you will need to either update your browser to a more recent version or update your <a href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>.
 		      </div>
 		    </div>
 		  </div>
 
-		<h2>Add some details</h2>
+		<br>
+		Copy-paste the following link to share this song with your friends:<br>
+		<input value="http://sleepmusicalization.net{% url song song.key %}" class="span5">
+		</p>
+		
+		<h2>Options:</h2>
 
 		<form action="" method="POST">
 			<table>
