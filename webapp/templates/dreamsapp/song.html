@@ -5,10 +5,16 @@
 
 {% block head %}
 	{% if song %}
+	  <script src="{{ STATIC_URL }}js/datetimeutils.js"></script>  
+	  <script src="{{ STATIC_URL }}js/nightvisualization.js"></script>  
+	
 	  <script type="text/javascript">
+
+	  var sleep_data = {% if song.sleep_data %}{{ song.sleep_data|safe }}{% else %}undefined{% endif %};
 	  
 	  $(document).ready(function(){
-	      $("#jquery_jplayer_1").jPlayer({
+	      
+		  $("#jquery_jplayer_1").jPlayer({
 	        ready: function () {
 	          $(this).jPlayer("setMedia", {
 	          	"mp3": "{% url song_mp3 song.key %}"
@@ -17,8 +23,21 @@
 	        swfPath: "{{ STATIC_URL }}js/jQuery.jPlayer.2.1.0/",
 	        supplied: "mp3"
 	      });
+		  
+		  if (sleep_data) {
+	          var sleep_plots = new Array();
+	          sleep_plots.push(new SleepStagesPlot("sleep_stages_plot", sleep_data));
+	          sleep_plots.push(new ActigramPlot("actigram_plot", sleep_data));
+	          
+	 	      $(window).resize(function() {
+	            for (var i = 0; i < sleep_plots.length; i++) {
+	              sleep_plots[i].draw();
+	            }
+	          });
+		  }
+
 	    });
-	
+	  
 	  </script>
 	 {% endif %}
 {% endblock %}
@@ -126,6 +145,15 @@
 		  </div>
 		  
 		 {{ song.description|linebreaks }}
+
+		<h4>Visualized sleep stages and movements during the night</h4>
+		
+		{% if song.sleep_data %}				 
+		<div id="sleep_stages_plot" style="height: 120px;"></div>
+		<div id="actigram_plot" style="height: 120px;"></div>
+	  	{% else %}
+	  	<p>(Not available)</p>
+	  	{% endif %}
 	  
 	  	<h3>Share this song</h3>
 
