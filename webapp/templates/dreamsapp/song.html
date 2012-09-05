@@ -89,21 +89,16 @@
 	</div>
   </div>
   {% endif %}
-
+  
+  
+  {% if song %}
+  
+  <hr>
+  
   <div class="row">
+  
     <div class="span6">
-
-
-	{% if song %}
-
-      <h1>
-      	{{ song.title }}
-  		{% if edit_link %}
-  		<small><a href="{{ edit_link }}">Edit</a></small>
-  		{% endif %}
-      </h1>
-
-		<!-- jquery player -->
+    	<!-- jquery player -->
 		  <div id="jquery_jplayer_1" class="jp-jplayer"></div>
 		  <div id="jp_container_1" class="jp-audio">
 		    <div class="jp-type-single">
@@ -144,40 +139,67 @@
 		      </div>
 		    </div>
 		  </div>
-		  
-		 {{ song.description|linebreaks }}
+    
+    </div>
+  
+    <div class="span6">
 
-		<h4>Visualized sleep stages and movements during the night</h4>
-		
-		{% if song.sleep_data %}				 
+      <h1>
+      	{{ song.title }}
+  		{% if edit_link %}
+  		<small><a href="{{ edit_link }}">Edit</a></small>
+  		{% endif %}
+      </h1>
+
+	  {{ song.description|linebreaks }}
+
+      <h3>Share this song</h3>
+
+	  <p>Copy-paste the following link to email, discussion, etc:
+  	  <p><input value="http://sleepmusicalization.net{% url song song.key %}" class="span6">      
+
+	</div>
+	
+  </div>
+  
+  {% if song.sleep_data %}
+  <div class="row">
+  
+  	<div class="span8">
 		<div id="sleep_stages_plot" style="height: 120px;"></div>
+	</div>
+	<div class="span4">
+	  <h4>Sleep stages visualized</h4>
+	</div>
+  </div>
+  <div class="row">
+    <div class="span8">
 		<div id="actigram_plot" style="height: 120px;"></div>
-	  	{% else %}
-	  	<p>(Not available)</p>
-	  	{% endif %}
-	  
-	  	<h3>Share this song</h3>
+	</div>
 
-		<p>Copy-paste the following link to email, discussion, etc:
-		<p><input value="http://sleepmusicalization.net{% url song song.key %}" class="span6">      
-      
-      
-      {% else %}
-      
-      	<p><b><font size="+1">Choose a song from the list &rArr;</font></b></p>
-      
-      {% endif %}
-      
+    <div class="span4">
+       <h4>Movements during the sleep</h4>
+    </div>
+  </div>
+  {% endif %}
+  
+  <hr>
+  
+  {% endif %}
+
+
+<div class="row">
+    
+    <div class="span6">
+    	<h2>My songs</h2>
+    	
+    	{% with song_list=my_songs %}
+    		{% include "dreamsapp/song_list_snippet.html" %}
+    	{% endwith %}
+    	
     </div>
     
     <div class="span6">
-    	{% if my_songs %}
-	    	<h2>My songs</h2>
-	    	
-	    	{% with song_list=my_songs %}
-	    		{% include "dreamsapp/song_list_snippet.html" %}
-	    	{% endwith %}
-	    {% endif %}
     
     	<h2>Latest songs</h2>
     	
