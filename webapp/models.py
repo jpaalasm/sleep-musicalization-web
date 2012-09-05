@@ -55,6 +55,8 @@ class Song(models.Model):
     description = models.TextField(blank=True, help_text="If you like, you can write something about this night and song")
     
     song_file = models.FileField(upload_to="songs", blank=True)
+    
+    sleep_data = models.TextField(blank=True)
 
     objects = SongManager()
     
