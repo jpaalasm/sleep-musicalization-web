@@ -429,7 +429,7 @@ function SleepStagesPlot(container_id, sleep_data, show_rem_stage) {
 		    		"fill-opacity" : 1,
 		    		"stroke-width" : 0.001,
 		    		"stroke-opacity" : 0,
-					"fill" : FreshColors.LIGHTBLUE,
+					"fill" : FreshColors.LIGHTBLUE
 		    };
 		    
 		    var length_minutes = Math.round(stage_length / (1000*60.0));
