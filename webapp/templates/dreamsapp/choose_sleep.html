@@ -23,7 +23,13 @@
 	  {% for night in timeline %}
 	  <tr>
 	    <td>{{ night.date|date }}</td>
-	    <td>{{ night.time_sleeping|hoursminutes|default:"(Not slept)" }}</td>
+	    <td>
+	    	{% if night.analysis_valid %}
+	    		{{ night.time_sleeping|hoursminutes|default:"(Not slept)" }}
+	    	{% else %}
+	    		-
+	    	{% endif %}
+	    </td>
 	    <td>
 	    	<form action="{% url song_create %}" method="POST" style="margin-bottom: 0;">
 	    		<input type="hidden" name="date" value="{{ night.date|date:'Y-m-d' }}">
