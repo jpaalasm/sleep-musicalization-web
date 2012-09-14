@@ -143,7 +143,7 @@ def song_create(request):
 
 
 def song_index(request):
-    context = {"latest_songs" : Song.objects.get_latest_public_songs()[:10],
+    context = {"latest_songs" : Song.objects.get_latest_public_songs(),
                }
     
     if request.session.has_key("beddit_user"):
