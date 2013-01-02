@@ -13,13 +13,13 @@ SLEEP_TO_MUSIC_PYTHON_INTERPRETER = "python"
 SLEEP_TO_MUSIC_SCRIPT = os.path.expanduser("~/Sleep-musicalization/dreamstomusic.py")
 
 
-def create_32bit_wav_file(file_name, framerate, data_array):
-    assert data_array.dtype == numpy.int32
+def create_16bit_wav_file(file_name, framerate, data_array):
+    assert data_array.dtype == numpy.int16
     assert data_array.ndim == 1
     
     wav_file = wave.open(file_name, "wb")
     wav_file.setnchannels(1)
-    wav_file.setsampwidth(4)
+    wav_file.setsampwidth(2)
     wav_file.setframerate(framerate)
     wav_file.setnframes(len(data_array))
     
@@ -68,3 +68,20 @@ def kunquat_musicalization(username, date, access_token, output_file_name):
     
     os.unlink(sleep_file_name)
     os.unlink(result_file_name)
+
+
+def signal_musicalization(username, date, access_token, output_file_name):
+    """Musicalizes a single night's Beddit sleep information by
+    converting the force sensor signal into a WAV file."""
+    
+    bson_string = make_beddit_api_request("signal.bson", username, date, access_token)
+    bson_data = bson.loads(bson_string)
+    
+    force_signal_bson_data = bson_data["channels"]["lo_gain"]
+    sampling_frequency = force_signal_bson_data["sample_rate"]
+    signal = numpy.frombuffer(force_signal_bson_data["sample_data"],
+                              force_signal_bson_data["data_type"])
+    
+    audio_array = signal.astype(numpy.int16)
+    
+    create_16bit_wav_file(output_file_name, 44100.0, audio_array)
