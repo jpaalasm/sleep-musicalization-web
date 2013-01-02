@@ -208,10 +208,6 @@ BEDDIT_REDIRECT_URL = config_parser.get("sleeptomusic", "beddit_redirect_url")
 #AWS_SECRET_ACCESS_KEY = config_parser.get("aws", "aws_secret_access_key")
 #AWS_STORAGE_BUCKET_NAME = config_parser.get("aws", "aws_storage_bucket_name")
 
-# Used for running the actual music composition
-SLEEP_TO_MUSIC_PYTHON_INTERPRETER = "/home/mikko/.virtualenvs/dreamstomusic/bin/python"
-SLEEP_TO_MUSIC_SCRIPT = "/home/mikko/DreamsToMusic/dreamstomusic.py"
-
 import djcelery
 djcelery.setup_loader()
 
