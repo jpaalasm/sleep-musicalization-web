@@ -3,7 +3,7 @@ import subprocess
 import os
 import tempfile
 import wave
-import requests
+import urllib2
 import bson
 import numpy
 import time
@@ -30,19 +30,16 @@ def create_32bit_wav_file(file_name, framerate, data_array):
 def make_beddit_api_request(api_selector, username, date, token):
     "Make an API request and return the resulting JSON or BSON document as a string"
     
-    sleep_url = BEDDIT_SERVER + "/api2/user/%s/%d/%02d/%02d/%s?access_token=%s" % (username, date.year, date.month, date.day, api_selector, token)
+    url = BEDDIT_SERVER + "/api2/user/%s/%d/%02d/%02d/%s?access_token=%s" % (username, date.year, date.month, date.day, api_selector, token)
     
     print "Fetching data: %s %d-%02d-%02d %s" % (username, date.year, date.month, date.day, api_selector)
-    
     t0 = time.time()
     
-    response = requests.get(sleep_url)
-    response.raise_for_status()
-    serialized_data = response.text
+    response_data = urllib2.urlopen(url).read()
     
-    print "Fetching done in %.1f seconds" % (time.time() - t0)
+    print "Fetched %d bytes in %.1f seconds" % (len(response_data), time.time() - t0)
     
-    return serialized_data
+    return response_data
 
 
 def kunquat_musicalization(username, date, access_token, output_file_name):
